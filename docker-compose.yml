@@ -1,0 +1,30 @@
+version: '1.0'
+services:
+  php:
+      image: tmolleyres/apachewithcomposerandphpunit1.0:latest
+      volumes:
+        - ./my-website:/var/www/html
+        #- ./ssl-certs:/etc/ssl/web
+      environment:
+        TZ: UTC
+        PUID: ${UID:-9999}
+        PGID: ${GID:-9999}
+      ports:
+        - 80:80
+       # - 443:443
+      links:
+        - db
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: my_database
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
