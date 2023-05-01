@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+                userRemoteConfigs: [[url: 'https://github.com/BloopT/TBPhpMySql.git']]])            }
+        }
         stage('Build Docker Images') {
             steps {
                 sh 'docker-compose build'
